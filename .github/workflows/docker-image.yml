@@ -8,15 +8,13 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: [ARM64]
 
     steps:
-      - name: build arm64
-        uses: actions/checkout@v2
-        with:
-          architecture: aarch64
-          distribution: ubuntu-latest
-          run: |
-             echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-             docker build . --file ./docker/Dockerfile.arm64 --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:latest
-             docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:latest
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Build the Docker image
+      run: docker build . --file ./docker/Dockerfile.arm64 --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:latest
+    - name: Push the latest Docker image
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}:latest
