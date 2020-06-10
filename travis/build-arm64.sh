@@ -5,7 +5,7 @@ set -ev
 PLATFORM=arm64
 DOCKERFILE_LOCATION="./docker/Dockerfile.arm64"
 DOCKER_IMAGE="go-auto-yt"
-DOCKER_TAG="stable"
+DOCKER_TAG="latest"
 
 # If This Isn't A PR, Push to Dockerhub
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
