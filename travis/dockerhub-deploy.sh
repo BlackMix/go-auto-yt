@@ -3,7 +3,7 @@ set -ev
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
-    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+    docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
     docker manifest create ${DOCKER_USER}/ytd2:latest \
             ${DOCKER_USER}/ytd2:latest-arm64
