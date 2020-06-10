@@ -9,7 +9,7 @@ DOCKER_TAG="latest"
 
 # If This Isn't A PR, Push to Dockerhub
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
-    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+    docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
     buildctl build --frontend dockerfile.v0 \
         --progress=plain \
