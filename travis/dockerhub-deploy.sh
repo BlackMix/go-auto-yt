@@ -3,7 +3,7 @@ set -ev
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
-    docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
     docker manifest create ${DOCKER_USER}/go-auto-yt:latest \
             ${DOCKER_USER}/go-auto-yt:latest-arm64
