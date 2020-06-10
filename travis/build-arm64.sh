@@ -4,12 +4,12 @@ set -ev
 # Set Build Options
 PLATFORM=arm64
 DOCKERFILE_LOCATION="./docker/Dockerfile.arm64"
-DOCKER_IMAGE="go-auto-yt"
+DOCKER_IMAGE="ytd2"
 DOCKER_TAG="latest"
 
 # If This Isn't A PR, Push to Dockerhub
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
-    docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
     buildctl build --frontend dockerfile.v0 \
         --progress=plain \
