@@ -12,28 +12,16 @@ branches:
     - dev
 
 stages:
-  - go_test+build
   - docker_build+deploy
 
 jobs:
   include:
-  - stage: "go_test+build"
-    language: go
-    go: "1.13"
-    install: 
-    - sudo apt-get update
-    - sudo apt-get install -y curl ffmpeg
-    - curl -L https://yt-dl.org/downloads/latest/youtube-dl -o ./youtube-dl && chmod a+rx ./youtube-dl && sudo cp youtube-dl /usr/local/bin && export PATH=$PATH:$PWD
-    - go get -v
-    script:
-    - go test -v
-    - go build -v
   - stage: "docker_build+deploy"
     if: branch = master
     language: shell
     before_install:
     - sudo docker run --privileged linuxkit/binfmt:v0.7
-    - sudo docker run -d --privileged -p 1234:1234 --name buildkit moby/buildkit:latest --addr tcp://0.0.0.0:1234 --oci-worker-platform linux/amd64 --oci-worker-platform linux/arm64 --oci-worker-platform linux/armhf
+    - sudo docker run -d --privileged -p 1234:1234 --name buildkit moby/buildkit:latest --addr tcp://0.0.0.0:1234 --oci-worker-platform linux/arm64
     - sudo docker cp buildkit:/usr/bin/buildctl /usr/bin/
     - export BUILDKIT_HOST=tcp://0.0.0.0:1234
     addons:
