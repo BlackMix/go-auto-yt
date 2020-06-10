@@ -8,10 +8,10 @@ jobs:
 
   build:
 
-    runs-on: [ARM64]
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: docker://multiarch/ubuntu-core:arm64-bionic
     - name: Docker login
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Build the Docker image
